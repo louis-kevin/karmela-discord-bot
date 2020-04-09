@@ -1,18 +1,18 @@
 
 const Discord = require('discord.io');
 const logger = require('winston');
-const auth = require('./auth.json');
-const http = require('http');
+const auth =  process.env.BOT_AUTH;
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
 logger.add(new logger.transports.Console, {
     colorize: true
 });
+
 logger.level = 'debug';
 // Initialize Discord Bot
 var bot = new Discord.Client({
-    token: auth.token,
+    token: auth,
     autorun: true
 });
 
@@ -68,10 +68,4 @@ bot.on('message', function (user, userID, channelID, message, evt) {
     });
 });
 
-http.createServer((req, res) => {
-    res.writeHead(200, {
-        'Content-type': 'text/plain'
-    });
-    res.write('Hey');
-    res.end();
-}).listen(4000);
+require('http').createServer().listen(3000);
